@@ -44,13 +44,13 @@ and invalid model instances.
 
 ```ruby
 not_an_address = Address.hatch(street: '', number: 1234)
-address.class
+not_an_address.class
 # => Address::InvalidAddress
 
-address.errors
+not_an_address.errors
 # => ['Address must have a street']
 
-address.valid?
+not_an_address.valid?
 # => false
 ```
 
