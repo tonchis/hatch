@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'val'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.summary     = 'Keep valid objects only'
   s.description = "An address without a street? A person without a name? You don't need no invalid objects!"
