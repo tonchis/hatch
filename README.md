@@ -4,7 +4,7 @@ Hatch
 An address without a street? A person without a name? Those are not valid objects!
 Why should you have them hanging around your system?
 
-Tell ```Hatch``` how to certify the attribtues of your models, and he will give you
+Tell ```Hatch``` how to certify the attributes of your models, and he will give you
 the appropiate object.
 
 If you don't hatch your model with all the correct attributes, it will give you
@@ -35,7 +35,7 @@ not_an_address.class
 # => Address::InvalidAddress
 ```
 
-You declare your attributes to ```Hatch``` with the ```attribtues``` message and
+You declare your attributes to ```Hatch``` with the ```attributes``` message and
 then use ```certify(:attribute, 'error message', &validation)``` to verify when an
 attribute is valid.
 
