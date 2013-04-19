@@ -31,7 +31,7 @@ module Val
       @@attributes[self.to_s.to_sym] = args
     end
 
-    def validate(attribute, error, &block)
+    def certify(attribute, error, &block)
       @@validations[self.to_s.to_sym][attribute] = {error: error, validation: block}
     end
 

@@ -8,15 +8,15 @@ class Address
   include Val
   attributes :city, :street, :number
 
-  validate(:street, "Address must have a street") do |street|
+  certify(:street, "Address must have a street") do |street|
     !street.nil? && !street.empty?
   end
 
-  validate(:number, "Address must have a positive number") do |number|
+  certify(:number, "Address must have a positive number") do |number|
     !number.nil? && number > 0
   end
 
-  validate(:city, "Address must have a city") do |city|
+  certify(:city, "Address must have a city") do |city|
     !city.nil? && !city.empty?
   end
 end
