@@ -10,6 +10,8 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.files = Dir[
-    '*.gemspec'
+    '*.gemspec',
+    'Rakefile',
+    'test/*.*'
   ]
 end
