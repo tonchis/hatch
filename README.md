@@ -65,7 +65,7 @@ Installation
 Thanks
 ------
 
-To @pote for the help, support and company!
+To [@pote](https://github.com/pote) for the help, support and company!
 
 License
 -------
