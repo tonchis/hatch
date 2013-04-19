@@ -3,6 +3,14 @@ module Val
     klass.extend(ClassMethods)
   end
 
+  def errors
+    []
+  end
+
+  def valid?
+    true
+  end
+
   module ClassMethods
     @@validations = {}
     @@attributes = {}
@@ -48,6 +56,10 @@ module Val
         @validated_attributes = validated_attributes
         select_errors
         respond_to_instance_methods
+      end
+
+      def valid?
+        false
       end
 
     private

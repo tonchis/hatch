@@ -7,6 +7,11 @@ class ValidTest < Test::Unit::TestCase
     assert_equal address.instance_variable_get("@street"), "Fake St"
     assert_equal address.instance_variable_get("@number"), 1234
     assert_equal address.instance_variable_get("@city"), "Buenos Aires"
+
+    assert address.respond_to?(:errors)
+    assert address.errors.empty?
+    assert address.respond_to?(:valid?)
+    assert address.valid?
   end
 
   def test_invalid
@@ -21,6 +26,9 @@ class ValidTest < Test::Unit::TestCase
     assert address.errors.include?("Address must have a street")
     assert address.errors.include?("Address must have a positive number")
     assert address.errors.include?("Address must have a city")
+
+    assert address.respond_to?(:valid?)
+    assert !address.valid?
   end
 end
 
