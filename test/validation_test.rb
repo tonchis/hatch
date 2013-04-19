@@ -1,10 +1,4 @@
-require 'test/unit'
-
-class Address
-  include Val
-  @@attributes = [:city, :street, :number]
-  attr_reader *@@attributes
-end
+require_relative 'helper'
 
 class ValidTest < Test::Unit::TestCase
   def test_valid
