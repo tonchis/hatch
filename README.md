@@ -31,7 +31,7 @@ address.class
 # => Address
 
 not_an_address = Address.hatch(street: '', number: 1234)
-address.class
+not_an_address.class
 # => Address::InvalidAddress
 ```
 
