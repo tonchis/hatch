@@ -46,7 +46,7 @@ module Val
                                                    &validation[:validation])
       end
 
-      _build(validated_attributes)
+      build(validated_attributes)
     end
 
     module InvalidInstanceMethods
@@ -65,7 +65,7 @@ module Val
     private
 
       def respond_to_instance_methods
-        extended_klass = eval(self.class.to_s.split("Invalid").last)
+        extended_klass = Kernel.const_get(self.class.to_s.split("Invalid").last)
         address_instance_methods = extended_klass.instance_methods(false)
 
         attributes_with_reader = @validated_attributes.select do |validated_attribute|
@@ -86,7 +86,7 @@ module Val
 
   private
 
-    def _build(validated_attributes)
+    def build(validated_attributes)
       validation = -> do
         valid = true
         validated_attributes.each do |validated_attribute|
@@ -99,8 +99,7 @@ module Val
       if validation.call
         set_instance_variables(new, *validated_attributes)
       else
-        invalid_klass = eval("#{self.to_s}::Invalid#{self.to_s}")
-        invalid_klass.new(*validated_attributes)
+        const_get("Invalid#{self}").new(*validated_attributes)
       end
     end
 
