@@ -35,7 +35,7 @@ module Val
       @@validations[self.to_s.to_sym][attribute] = {error: error, validation: block}
     end
 
-    def create(args = {})
+    def hatch(args = {})
       validated_attributes = []
       klass_symbol = self.to_s.to_sym
       @@attributes[klass_symbol].each do |attribute|
