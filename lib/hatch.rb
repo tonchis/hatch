@@ -1,4 +1,4 @@
-module Val
+module Hatch
   def self.included(klass)
     klass.extend(ClassMethods)
   end

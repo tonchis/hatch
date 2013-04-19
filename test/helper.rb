@@ -1,11 +1,11 @@
 require 'test/unit'
 require 'pry'
-require_relative '../lib/val'
+require_relative '../lib/hatch'
 
 class Address
   attr_reader :city, :street, :number
 
-  include Val
+  include Hatch
   attributes :city, :street, :number
 
   certify(:street, "Address must have a street") do |street|
