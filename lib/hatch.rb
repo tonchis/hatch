@@ -20,11 +20,11 @@ module Hatch
       @@validations[klass_symbol] = {}
       @@attributes[klass_symbol] = []
 
-      klass.class_eval <<-EOS
-        class Invalid#{klass}
-          include InvalidInstanceMethods
-        end
-      EOS
+      invalid_class = Class.new do
+        include InvalidInstanceMethods
+      end
+
+      klass.const_set("Invalid#{klass}", invalid_class)
     end
 
     def attributes(*args)
