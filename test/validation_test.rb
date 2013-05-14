@@ -19,13 +19,13 @@ class ValidTest < Test::Unit::TestCase
     assert address.is_a?(Address::InvalidAddress)
     assert address.errors.include?("Address must have a street")
     assert !address.errors.include?("Address must have a positive number")
-    assert !address.errors.include?("Address must have a city")
+    assert !address.errors.include?("must be present")
 
     address = Address.hatch(street: "", number: -4)
     assert address.is_a?(Address::InvalidAddress)
     assert address.errors.include?("Address must have a street")
     assert address.errors.include?("Address must have a positive number")
-    assert address.errors.include?("Address must have a city")
+    assert address.errors.include?("must be present")
 
     assert address.respond_to?(:valid?)
     assert !address.valid?

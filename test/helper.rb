@@ -8,16 +8,12 @@ class Address
   include Hatch
   attributes :city, :street, :number
 
-  certify(:street, "Address must have a street") do |street|
-    !street.nil? && !street.empty?
-  end
+  certifies(:city, :presence)
+
+  certifies(:street, :presence, "Address must have a street")
 
   certify(:number, "Address must have a positive number") do |number|
     !number.nil? && number > 0
-  end
-
-  certify(:city, "Address must have a city") do |city|
-    !city.nil? && !city.empty?
   end
 end
 

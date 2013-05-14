@@ -32,7 +32,11 @@ module Hatch
     end
 
     def certify(attribute, error, &block)
-      @@validations[self.to_s.to_sym][attribute] = {error: error, validation: block}
+      @@validations[self.to_s.to_sym][attribute] = Validation.new(error, &block)
+    end
+
+    def certifies(attribute, validation, error = nil)
+      @@validations[self.to_s.to_sym][attribute] = Validation.send(validation, error)
     end
 
     def hatch(args = {})
@@ -42,8 +46,8 @@ module Hatch
         validation = @@validations[klass_symbol][attribute]
         validated_attributes << Validator.validate(attribute,
                                                    args[attribute],
-                                                   validation[:error],
-                                                   &validation[:validation])
+                                                   validation.error,
+                                                   &validation.closure)
       end
 
       build(validated_attributes)
@@ -128,6 +132,20 @@ module Hatch
 
     def invalid?
       !@valid
+    end
+  end
+
+  class Validation
+    attr_reader :error, :closure
+
+    def initialize(error, &block)
+      @error = error
+      @closure = block
+    end
+
+    def self.presence(error)
+      error ||= "must be present"
+      new(error) {|value| !value.nil? && !value.empty?}
     end
   end
 end
