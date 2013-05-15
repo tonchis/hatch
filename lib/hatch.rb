@@ -47,7 +47,7 @@ module Hatch
         validated_attributes << Validator.validate(attribute,
                                                    args[attribute],
                                                    validation.error,
-                                                   &validation.closure)
+                                                   &validation.block)
       end
 
       build(validated_attributes)
@@ -136,16 +136,25 @@ module Hatch
   end
 
   class Validation
-    attr_reader :error, :closure
+    attr_reader :error, :block
 
     def initialize(error, &block)
       @error = error
-      @closure = block
+      @block = block
     end
 
     def self.presence(error)
-      error ||= "must be present"
-      new(error) {|value| !value.nil? && !value.empty?}
+      common_validation(error || "must be present") {|value| !value.nil? && !value.empty?}
+    end
+
+    def self.positive_number(error)
+      common_validation(error || "must be a positive number") {|value| !value.nil? && value > 0}
+    end
+
+  private
+
+    def self.common_validation(error, &block)
+      new(error, &block)
     end
   end
 end
