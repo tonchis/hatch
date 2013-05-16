@@ -1,4 +1,5 @@
-require_relative 'helper'
+require_relative 'support/helper'
+require_relative 'support/address'
 
 class ValidTest < Test::Unit::TestCase
   def test_valid
@@ -19,13 +20,13 @@ class ValidTest < Test::Unit::TestCase
     assert address.is_a?(Address::InvalidAddress)
     assert address.errors.include?("Address must have a street")
     assert !address.errors.include?("Address must have a positive number")
-    assert !address.errors.include?("must be present")
+    assert !address.errors.include?("Address must have a city")
 
     address = Address.hatch(street: "", number: -4)
     assert address.is_a?(Address::InvalidAddress)
     assert address.errors.include?("Address must have a street")
     assert address.errors.include?("Address must have a positive number")
-    assert address.errors.include?("must be present")
+    assert address.errors.include?("Address must have a city")
 
     assert address.respond_to?(:valid?)
     assert !address.valid?

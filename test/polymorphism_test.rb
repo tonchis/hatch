@@ -1,4 +1,5 @@
-require_relative 'helper'
+require_relative 'support/helper'
+require_relative 'support/address'
 
 class PolymorphismTest < Test::Unit::TestCase
   def test_polymorphism
