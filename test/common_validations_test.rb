@@ -20,6 +20,6 @@ class CommonValidationsTest < Test::Unit::TestCase
   def test_positive_number
     common_stuff = CommonStuff.hatch(present: "here", positive: -1)
     assert common_stuff.is_a?(CommonStuff::InvalidCommonStuff)
-    assert common_stuff.errors.include?("must be positive")
+    assert common_stuff.errors.include?("must be a positive number")
   end
 end
