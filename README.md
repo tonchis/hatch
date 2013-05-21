@@ -4,8 +4,8 @@ Hatch
 An address without a street? A person without a name? Those are not valid objects!
 Why should you have them hanging around your system?
 
-Tell ```Hatch``` how to certify the attributes of your models, and he will give you
-the appropiate object.
+Tell `Hatch` how to certify the attributes of your models, and he will give you
+the appropriate object.
 
 If you don't hatch your model with all the correct attributes, it will give you
 an object representing an invalid instance of it.
@@ -35,11 +35,11 @@ not_an_address.class
 # => Address::InvalidAddress
 ```
 
-You declare your attributes to ```Hatch``` with the ```attributes``` message and
-then use ```certify(:attribute, 'error message', &validation)``` to verify when an
+You declare your attributes to `Hatch` with the `attributes` message and
+then use `certify(:attribute, 'error message', &validation)` to verify when an
 attribute is valid.
 
-You'll also get some handy ```errors``` and ```valid?``` methods for both your valid
+You'll also get some handy `errors` and `valid?` methods for both your valid
 and invalid model instances.
 
 ```ruby
@@ -54,8 +54,29 @@ not_an_address.valid?
 # => false
 ```
 
-In case you're wondering, the ```Model::InvalidModel``` is polymorphic with your
-```Model``` in all the reader methods declared by ```attr_reader``` or ```attr_accessor```
+In case you're wondering, the `Model::InvalidModel` is polymorphic with your
+`Model` in all the reader methods declared by `attr_reader` or `attr_accessor`
+
+`Hatch` also supports some common validations we all like to have!
+
+```ruby
+class Address
+  include Hatch
+  attributes :street, :number
+
+  certifies(:street, :presence)
+
+  certifies(:number, :positive_number)
+end
+```
+
+Common validations come in the following flavours
+
+  * `:presence`
+  * `:positive_number`
+
+Aaand that's it for the moment. I'll keep on adding more as they come to my mind. If they come
+to yours first, feel free to add them and PR.
 
 Installation
 ------------
