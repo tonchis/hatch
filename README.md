@@ -57,23 +57,23 @@ not_an_address.valid?
 In case you're wondering, the `Model::InvalidModel` is polymorphic with your
 `Model` in all the reader methods declared by `attr_reader` or `attr_accessor`
 
-`Hatch` also supports some common validations we all like to have!
+`Hatch` also supports some common validations we all like to have! You can pass an error
+of your own or just use the default.
 
 ```ruby
 class Address
   include Hatch
   attributes :street, :number
 
-  certifies(:street, :presence)
-
+  certifies(:street, :presence, "This is an error! Where's my street?!")
   certifies(:number, :positive_number)
 end
 ```
 
-Common validations come in the following flavours
+Common validations come in the following flavours (along with default errors)
 
-  * `:presence`
-  * `:positive_number`
+  * `:presence` - `"must be present"`
+  * `:positive_number` - `"must be a positive number"`
 
 Aaand that's it for the moment. I'll keep on adding more as they come to my mind. If they come
 to yours first, feel free to add them and PR.
