@@ -144,17 +144,11 @@ module Hatch
     end
 
     def self.presence(error)
-      common_validation(error || "must be present") {|value| !value.nil? && !value.empty?}
+      new(error || "must be present") {|value| !value.nil? && !value.empty?}
     end
 
     def self.positive_number(error)
-      common_validation(error || "must be a positive number") {|value| !value.nil? && value > 0}
-    end
-
-  private
-
-    def self.common_validation(error, &block)
-      new(error, &block)
+      new(error || "must be a positive number") {|value| !value.nil? && value > 0}
     end
   end
 end
