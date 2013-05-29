@@ -5,9 +5,9 @@ class ValidTest < Test::Unit::TestCase
   def test_valid
     address = Address.hatch(street: "Fake St", city: "Buenos Aires", number: 1234)
     assert address.is_a?(Address)
-    assert_equal address.instance_variable_get("@street"), "Fake St"
-    assert_equal address.instance_variable_get("@number"), 1234
-    assert_equal address.instance_variable_get("@city"), "Buenos Aires"
+    assert_equal address.street, "Fake St"
+    assert_equal address.number, 1234
+    assert_equal address.city, "Buenos Aires"
 
     assert address.respond_to?(:errors)
     assert address.errors.empty?
