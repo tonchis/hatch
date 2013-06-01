@@ -4,8 +4,6 @@ require_relative '../lib/hatch'
 class CommonStuff
   include Hatch
 
-  attributes :present, :positive
-
   certifies :present, :presence
   certifies :positive, :positive_number
 end

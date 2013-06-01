@@ -5,8 +5,6 @@ class Address
 
   include Hatch
 
-  attributes :city, :street, :number
-
   certify(:city, "Address must have a city") do |city|
     !city.nil? && !city.empty?
   end
