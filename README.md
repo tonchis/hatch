@@ -1,6 +1,14 @@
 Hatch
 =====
 
+Installation
+------------
+
+    $ gem install hatch
+
+Usage
+-----
+
 An address without a street? A person without a name? Those are not valid objects!
 Why should you have them hanging around your system?
 
@@ -29,30 +37,19 @@ end
 address = Address.hatch(street: 'Fake St', number: 1234)
 address.class
 # => Address
+address.valid?
+# => true
 
 not_an_address = Address.hatch(street: '', number: 1234)
 not_an_address.class
 # => Address::InvalidAddress
+not_an_address.valid?
+# => false
 ```
 
 You declare your attributes to `Hatch` with the `attributes` message and
 then use `certify(:attribute, 'error message', &validation)` to verify when an
 attribute is valid.
-
-You'll also get some handy `errors` and `valid?` methods for both your valid
-and invalid model instances.
-
-```ruby
-not_an_address = Address.hatch(street: '', number: 1234)
-not_an_address.class
-# => Address::InvalidAddress
-
-not_an_address.errors
-# => ['Address must have a street']
-
-not_an_address.valid?
-# => false
-```
 
 In case you're wondering, the `Model::InvalidModel` is polymorphic with your
 `Model` in all the reader methods declared by `attr_reader` or `attr_accessor`
@@ -78,10 +75,28 @@ Common validations come in the following flavours (along with default errors)
 Aaand that's it for the moment. I'll keep on adding more as they come to my mind. If they come
 to yours first, feel free to add them and PR.
 
-Installation
-------------
+Errors
+------
 
-    $ gem install hatch
+You'll also get a handy `errors` hash with a couple of super powers.
+
+```ruby
+not_an_address = Address.hatch(street: '', number: 1234)
+not_an_address.class
+# => Address::InvalidAddress
+
+not_an_address.errors.full_messages
+# => ['Address must have a street']
+
+not_an_address.errors.on(:street)
+# => 'Address must have a street'
+
+not_an_address.errors[:number]
+# => []
+
+not_an_address.errors.empty?
+# => false
+```
 
 Thanks
 ------

@@ -58,7 +58,7 @@ module Hatch
 
       def initialize(*validated_attributes)
         @validated_attributes = validated_attributes
-        select_errors
+        @errors = Errors.build(@validated_attributes)
         respond_to_instance_methods
       end
 
@@ -79,12 +79,6 @@ module Hatch
         attributes_with_reader.each do |attribute|
           self.class.send :define_method, attribute.attr, -> {attribute.value}
         end
-      end
-
-      def select_errors
-        @errors = @validated_attributes.select do |validated_attribute|
-          validated_attribute.invalid?
-        end.map(&:error)
       end
     end
 
@@ -149,6 +143,35 @@ module Hatch
 
     def self.positive_number(error)
       new(error || "must be a positive number") {|value| !value.nil? && value > 0}
+    end
+  end
+
+  class Errors < Hash
+    def self.build(validated_attributes)
+      errors = new
+      validated_attributes.each do |validated_attribute|
+        if validated_attribute.invalid?
+          errors[validated_attribute.attr] = validated_attribute.error
+        else
+          errors[validated_attribute.attr] = []
+        end
+      end
+
+      errors
+    end
+
+    def on(attr)
+      self[attr]
+    end
+
+    def full_messages
+      messages = []
+      values.each {|value| messages << value unless value.empty?}
+      messages
+    end
+
+    def empty?
+      full_messages.empty?
     end
   end
 end
