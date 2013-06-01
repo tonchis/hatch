@@ -15,5 +15,11 @@ class ValidationTest < Test::Unit::TestCase
     assert address.respond_to?(:valid?)
     assert !address.valid?
   end
+
+  def test_ignore_attributes
+    address = Address.hatch(street: 'Fake St', city: 'Buenos Aires', number: 1234, sorry: :oops)
+    assert address.is_a?(Address)
+    assert address.valid?
+  end
 end
 
