@@ -13,22 +13,16 @@ module Hatch
 
   module ClassMethods
     @@validations = {}
-    @@attributes = {}
 
     def self.extended(klass)
       klass_symbol = klass.to_s.to_sym
       @@validations[klass_symbol] = {}
-      @@attributes[klass_symbol] = []
 
       invalid_class = Class.new do
         include InvalidInstanceMethods
       end
 
       klass.const_set("Invalid#{klass}", invalid_class)
-    end
-
-    def attributes(*args)
-      @@attributes[self.to_s.to_sym] = args
     end
 
     def certify(attribute, error, &block)
@@ -41,9 +35,7 @@ module Hatch
 
     def hatch(args = {})
       validated_attributes = []
-      klass_symbol = self.to_s.to_sym
-      @@attributes[klass_symbol].each do |attribute|
-        validation = @@validations[klass_symbol][attribute]
+      @@validations[self.to_s.to_sym].each_pair do |attribute, validation|
         validated_attributes << Validator.validate(attribute,
                                                    args[attribute],
                                                    validation.error,
@@ -102,7 +94,7 @@ module Hatch
     end
 
     def set_instance_variables(instance, *args)
-      @@attributes[instance.class.to_s.to_sym].each_with_index do |attribute, index|
+      @@validations[instance.class.to_s.to_sym].keys.each_with_index do |attribute, index|
         instance.instance_variable_set("@#{attribute}", args[index].value)
       end
       instance
