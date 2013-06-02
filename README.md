@@ -12,18 +12,16 @@ Usage
 An address without a street? A person without a name? Those are not valid objects!
 Why should you have them hanging around your system?
 
-Tell `Hatch` how to certify the attributes of your models, and he will give you
+Tell `Hatch` how to certify the attributes of your models, and it will give you
 the appropriate object.
 
-If you don't hatch your model with all the correct attributes, it will give you
-an object representing an invalid instance of it.
+If you don't hatch your model with all the correct attributes, you'll get an object representing an invalid instance of it.
 
 ```ruby
 require 'hatch'
 
 class Address
   include Hatch
-  attributes :street, :number
 
   certify(:street, 'Address must have a street') do |street|
     !street.nil? && !street.empty?
@@ -47,27 +45,25 @@ not_an_address.valid?
 # => false
 ```
 
-You declare your attributes to `Hatch` with the `attributes` message and
-then use `certify(:attribute, 'error message', &validation)` to verify when an
+Use `certify(:attribute, 'error message', &validation)` to verify when an
 attribute is valid.
 
 In case you're wondering, the `Model::InvalidModel` is polymorphic with your
 `Model` in all the reader methods declared by `attr_reader` or `attr_accessor`
 
-`Hatch` also supports some common validations we all like to have! You can pass an error
-of your own or just use the default.
+`Hatch` also supports some common validations we all like to have!
+`certifies(:attribute, :validation, 'error message')` will do the trick.
 
 ```ruby
 class Address
   include Hatch
-  attributes :street, :number
 
   certifies(:street, :presence, "This is an error! Where's my street?!")
   certifies(:number, :positive_number)
 end
 ```
 
-Common validations come in the following flavours (along with default errors)
+Common validations come in the following flavours (along with default error messages)
 
   * `:presence` - `"must be present"`
   * `:positive_number` - `"must be a positive number"`
