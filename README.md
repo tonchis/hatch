@@ -109,13 +109,14 @@ end
 
 not_an_address = Address.hatch(street: '')
 not_an_address.errors.on(:street)
-=> #<LowAwesomenessError:0x007fdb3458eeb0 @code=:moar_awesome, @message="this is not awesome enough">
+=> #<LowAwesomenessError:0x007fdb3458eeb0 @code=:moar_awesome_plz, @message="this is not awesome enough">
 ```
 
 Thanks
 ------
 
 To [@pote](https://github.com/pote) for the help, support and company!
+To [@munshkr](https://github.com/munshkr) for testing and playing around with it.
 
 License
 -------
