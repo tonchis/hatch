@@ -115,8 +115,8 @@ not_an_address.errors.on(:street)
 Thanks
 ------
 
-To [@pote](https://github.com/pote) for the help, support and company!
-To [@munshkr](https://github.com/munshkr) for testing and playing around with it.
+* [@pote](https://github.com/pote) for the help, support and company!
+* [@munshkr](https://github.com/munshkr) for testing and playing around with it.
 
 License
 -------
