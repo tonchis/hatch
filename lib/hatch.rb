@@ -36,10 +36,10 @@ module Hatch
     def hatch(args = {})
       validated_attributes = []
       @@validations[self.to_s.to_sym].each_pair do |attribute, validation|
-        validated_attributes << Validator.validate(attribute,
-                                                   args[attribute],
-                                                   validation.error,
-                                                   &validation.block)
+        validated_attributes << ValidatedAttribute.validate(attribute,
+                                                            args[attribute],
+                                                            validation.error,
+                                                            &validation.block)
       end
 
       build(validated_attributes)
@@ -98,7 +98,7 @@ module Hatch
     end
   end
 
-  class Validator
+  class ValidatedAttribute
     attr_reader :attr, :value, :error
 
     def self.validate(attr, value, error, &block)
