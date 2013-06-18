@@ -154,9 +154,7 @@ module Hatch
     end
 
     def full_messages
-      messages = []
-      values.each {|value| messages << value unless value.empty?}
-      messages
+      values.reject {|value| value.empty?}
     end
 
     def empty?
