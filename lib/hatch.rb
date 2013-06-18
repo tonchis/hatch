@@ -62,10 +62,10 @@ module Hatch
 
       def respond_to_instance_methods
         extended_klass = Kernel.const_get(self.class.to_s.split("Invalid").last)
-        address_instance_methods = extended_klass.instance_methods(false)
+        instance_methods = extended_klass.instance_methods(false)
 
         attributes_with_reader = @validated_attributes.select do |validated_attribute|
-          address_instance_methods.include?(validated_attribute.attr)
+          instance_methods.include?(validated_attribute.attr)
         end
 
         attributes_with_reader.each do |attribute|
