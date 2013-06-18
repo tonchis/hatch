@@ -122,8 +122,7 @@ module Hatch
     attr_reader :error, :block
 
     def initialize(error, &block)
-      @error = error
-      @block = block
+      @error, @block = error, block
     end
 
     def self.presence(error)
@@ -137,16 +136,11 @@ module Hatch
 
   class Errors < Hash
     def self.build(validated_attributes)
-      errors = new
-      validated_attributes.each do |validated_attribute|
-        if validated_attribute.invalid?
-          errors[validated_attribute.attr] = validated_attribute.error
-        else
-          errors[validated_attribute.attr] = []
-        end
+      attributes_and_errors = validated_attributes.map do |validated_attribute|
+        [validated_attribute.attr, validated_attribute.invalid? ? validated_attribute.error : [] ]
       end
 
-      errors
+      self[attributes_and_errors]
     end
 
     def on(attr)
