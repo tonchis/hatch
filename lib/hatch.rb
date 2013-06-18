@@ -136,11 +136,7 @@ module Hatch
 
   class Errors < Hash
     def self.build(validated_attributes)
-      attributes_and_errors = validated_attributes.map do |validated_attribute|
-        [validated_attribute.attr, validated_attribute.invalid? ? validated_attribute.error : [] ]
-      end
-
-      self[attributes_and_errors]
+      self[attributes_and_errors(validated_attributes)]
     end
 
     def on(attr)
@@ -153,6 +149,15 @@ module Hatch
 
     def empty?
       full_messages.empty?
+    end
+
+  private
+
+    def self.attributes_and_errors(validated_attributes)
+      validated_attributes.map do |validated_attribute|
+        [validated_attribute.attr,
+         validated_attribute.invalid? ? validated_attribute.error : [] ]
+      end
     end
   end
 end
