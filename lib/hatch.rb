@@ -79,16 +79,7 @@ module Hatch
   private
 
     def build(validated_attributes)
-      validation = -> do
-        valid = true
-        validated_attributes.each do |validated_attribute|
-          valid = valid && validated_attribute.valid?
-        end
-
-        valid
-      end
-
-      if validation.call
+      if all_attributes_valid?(validated_attributes)
         set_instance_variables(new, *validated_attributes)
       else
         const_get("Invalid#{self}").new(*validated_attributes)
@@ -100,6 +91,10 @@ module Hatch
         instance.instance_variable_set("@#{attribute}", args[index].value)
       end
       instance
+    end
+
+    def all_attributes_valid?(validated_attributes)
+      validated_attributes.map(&:valid?).reduce(true, :&)
     end
   end
 
