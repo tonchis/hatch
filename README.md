@@ -1,6 +1,8 @@
 Hatch
 =====
 
+An address without a street? A person without a name? Those are not valid objects!  Why should you have them hanging around your system? [![Build Status](https://travis-ci.org/tonchis/hatch.png?branch=master)](https://travis-ci.org/tonchis/hatch)
+
 Installation
 ------------
 
@@ -9,8 +11,6 @@ Installation
 Usage
 -----
 
-An address without a street? A person without a name? Those are not valid objects!
-Why should you have them hanging around your system?
 
 Tell `Hatch` how to certify the attributes of your models, and it will give you the appropriate object.
 
