@@ -1,7 +1,7 @@
 Hatch
 =====
 
-An address without a street? A person without a name? Those are not valid objects!  Why should you have them hanging around your system? [![Build Status](https://travis-ci.org/tonchis/hatch.png?branch=master)](https://travis-ci.org/tonchis/hatch)
+An address without a street? A person without a name? Those are not valid objects!  Why should you have them hanging around your system? [![Build Status](https://travis-ci.org/tonchis/hatch.png?branch=master)](https://travis-ci.org/tonchis/hatch) [![Code Climate](https://codeclimate.com/github/tonchis/hatch.png)](https://codeclimate.com/github/tonchis/hatch)
 
 Installation
 ------------
