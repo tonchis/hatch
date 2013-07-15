@@ -1,4 +1,4 @@
-require_relative 'support/helper'
+require 'test/unit'
 require_relative '../lib/hatch'
 
 class CommonStuff

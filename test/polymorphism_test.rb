@@ -1,4 +1,4 @@
-require_relative 'support/helper'
+require 'test/unit'
 require_relative 'support/address'
 
 class PolymorphismTest < Test::Unit::TestCase
