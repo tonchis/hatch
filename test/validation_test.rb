@@ -1,7 +1,7 @@
-require 'test/unit'
+require 'minitest/autorun'
 require_relative 'support/address'
 
-class ValidationTest < Test::Unit::TestCase
+class ValidationTest < MiniTest::Unit::TestCase
   def test_valid
     address = Address.hatch(street: 'Fake St', city: 'Buenos Aires', number: 1234)
     assert address.instance_of?(Address)
@@ -13,7 +13,7 @@ class ValidationTest < Test::Unit::TestCase
     address = Address.hatch(city: 'Buenos Aires', street: '', number: 1234)
     assert address.instance_of?(Address::InvalidAddress)
     assert address.respond_to?(:valid?)
-    assert !address.valid?
+    refute address.valid?
   end
 
   def test_ignore_attributes

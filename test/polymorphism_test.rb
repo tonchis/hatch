@@ -1,7 +1,7 @@
-require 'test/unit'
+require 'minitest/autorun'
 require_relative 'support/address'
 
-class PolymorphismTest < Test::Unit::TestCase
+class PolymorphismTest < MiniTest::Unit::TestCase
   def test_polymorphism
     address = Address.hatch(street: "Fake St", number: 1234, city: "Buenos Aires")
     assert address.instance_of?(Address)

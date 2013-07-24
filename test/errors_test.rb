@@ -1,10 +1,9 @@
-require 'test/unit'
+require 'minitest/autorun'
 require_relative 'support/address'
 
-class ErrorsTest < Test::Unit::TestCase
-  def initialize(*args)
+class ErrorsTest < MiniTest::Unit::TestCase
+  def setup
     @address = Address.hatch(city: 'Buenos Aires', street: '', number: -1)
-    super
   end
 
   def test_errors_on

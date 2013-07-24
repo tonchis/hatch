@@ -1,4 +1,4 @@
-require 'test/unit'
+require 'minitest/autorun'
 require_relative '../lib/hatch'
 
 class CommonStuff
@@ -8,7 +8,7 @@ class CommonStuff
   certifies :positive, :positive_number
 end
 
-class CommonValidationsTest < Test::Unit::TestCase
+class CommonValidationsTest < MiniTest::Unit::TestCase
   def test_presence
     common_stuff = CommonStuff.hatch(present: nil, positive: 1)
     assert_equal 'must be present', common_stuff.errors.on(:present)
