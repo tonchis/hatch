@@ -55,15 +55,16 @@ In case you're wondering, the `Model::InvalidModel` is polymorphic with your `Mo
 class Address
   include Hatch
 
-  certifies(:street, :presence, "This is an error! Where's my street?!")
+  certifies(:street, :presence, 'This is an error! Where's my street?!')
   certifies(:number, :positive_number)
 end
 ```
 
 Common validations come in the following flavours (along with default error messages)
 
-  * `:presence` - `"must be present"`
-  * `:positive_number` - `"must be a positive number"`
+  * `:presence` - `'must be present'`
+  * `:positive_number` - `'must be a positive number'`
+  * `:not_empty` - `'must not be empty'`
 
 Aaand that's it for the moment. I'll keep on adding more as they come to my mind. If they come to yours first, feel free to add them and PR.
 

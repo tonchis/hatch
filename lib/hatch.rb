@@ -122,11 +122,15 @@ module Hatch
     end
 
     def self.presence(error)
-      new(error || "must be present") {|value| !value.nil? && !value.empty?}
+      new(error || 'must be present') {|value| !value.nil?}
     end
 
     def self.positive_number(error)
-      new(error || "must be a positive number") {|value| !value.nil? && value > 0}
+      new(error || 'must be a positive number') {|value| !value.nil? && value > 0}
+    end
+
+    def self.not_empty(error)
+      new(error || 'must not be empty') {|value| !value.nil? && !value.empty?}
     end
   end
 
