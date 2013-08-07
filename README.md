@@ -62,7 +62,7 @@ end
 
 Common validations come in the following flavours (along with default error messages)
 
-  * `:presence` - `'must be present'`
+  * `:not_nil` - `'must not be nil'`
   * `:positive_number` - `'must be a positive number'`
   * `:not_empty` - `'must not be empty'`
 

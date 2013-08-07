@@ -121,8 +121,8 @@ module Hatch
       @error, @block = error, block
     end
 
-    def self.presence(error)
-      new(error || 'must be present') {|value| !value.nil?}
+    def self.not_nil(error)
+      new(error || 'must not be nil') {|value| !value.nil?}
     end
 
     def self.positive_number(error)
