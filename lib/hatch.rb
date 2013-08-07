@@ -61,12 +61,12 @@ module Hatch
     private
 
       def respond_to_instance_methods
-        attributes_with_reader.each do |attribute|
+        attributes_with_reader_method.each do |attribute|
           self.class.send :define_method, attribute.attr, -> {attribute.value}
         end
       end
 
-      def attributes_with_reader
+      def attributes_with_reader_method
         extended_klass = Kernel.const_get(self.class.to_s.split("Invalid").last)
         instance_methods = extended_klass.instance_methods(false)
 
