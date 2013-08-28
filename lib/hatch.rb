@@ -45,39 +45,6 @@ module Hatch
       build(validated_attributes)
     end
 
-    module InvalidInstanceMethods
-      attr_reader :errors
-
-      def initialize(*validated_attributes)
-        @validated_attributes = validated_attributes
-        @errors = Errors.build(@validated_attributes)
-        respond_to_instance_methods
-      end
-
-      def valid?
-        false
-      end
-
-    private
-
-      def respond_to_instance_methods
-        attributes_with_reader_method.each do |attribute|
-          self.class.send :define_method, attribute.attr, -> {attribute.value}
-        end
-      end
-
-      def attributes_with_reader_method
-        extended_klass = Kernel.const_get(self.class.to_s.split("Invalid").last)
-        instance_methods = extended_klass.instance_methods(false)
-
-        @validated_attributes.select do |validated_attribute|
-          instance_methods.include?(validated_attribute.attr)
-        end
-      end
-    end
-
-  private
-
     def build(validated_attributes)
       if validated_attributes.all? {|validated_attribute| validated_attribute.valid?}
         set_instance_variables(new, *validated_attributes)
@@ -85,37 +52,88 @@ module Hatch
         const_get("Invalid#{self}").new(*validated_attributes)
       end
     end
+    private :build
 
     def set_instance_variables(instance, *args)
-      @@validations[instance.class.to_s.to_sym].keys.each_with_index do |attribute, index|
+      @@validations[instance.class.name.to_sym].keys.each_with_index do |attribute, index|
         instance.instance_variable_set("@#{attribute}", args[index].value)
       end
       instance
     end
+    private :set_instance_variables
+
+    module InvalidInstanceMethods
+      attr :errors
+
+      def initialize(*validated_attributes)
+        @validated_attributes = validated_attributes
+        @errors = Errors.build(@validated_attributes)
+        respond_to_readable_attributes
+      end
+
+      def valid?
+        false
+      end
+
+      def respond_to_readable_attributes
+        readable_attributes.each do |readable_attribute|
+          self.class.send(:define_method,
+                          readable_attribute.attribute,
+                          -> {readable_attribute.value})
+        end
+      end
+      private :respond_to_readable_attributes
+
+      def readable_attributes
+        extended_class = Kernel.const_get(self.class.name.split("Invalid").last)
+        instance_methods = extended_class.instance_methods(false)
+
+        @validated_attributes.select do |validated_attribute|
+          instance_methods.include?(validated_attribute.attribute)
+        end
+      end
+      private :readable_attributes
+    end
   end
 
   class ValidatedAttribute
-    attr_reader :attr, :value, :error
+    attr :attribute, :value, :error
 
-    def self.validate(attr, value, error, &block)
-      new(attr, value, error, yield(value))
+    def self.validate(attribute, value, error, &block)
+      if yield(value)
+        ValidAttribute.new(attribute, value)
+      else
+        InvalidAttribute.new(attribute, value, error)
+      end
     end
 
-    def initialize(attr, value, error, valid)
-      @attr, @value, @error, @valid = attr, value, error, valid
+    def initialize(attribute, value, error = [])
+      @attribute, @value, @error = attribute, value, error
     end
+  end
 
+  class ValidAttribute < ValidatedAttribute
     def valid?
-      @valid
+      true
     end
 
     def invalid?
-      !@valid
+      false
+    end
+  end
+
+  class InvalidAttribute < ValidatedAttribute
+    def valid?
+      false
+    end
+
+    def invalid?
+      true
     end
   end
 
   class Validation
-    attr_reader :error, :block
+    attr :error, :block
 
     def initialize(error, &block)
       @error, @block = error, block
@@ -151,14 +169,12 @@ module Hatch
       full_messages.empty?
     end
 
-  private
-
     def self.attributes_and_errors(validated_attributes)
       validated_attributes.map do |validated_attribute|
-        [validated_attribute.attr,
-         validated_attribute.invalid? ? validated_attribute.error : [] ]
+        [validated_attribute.attribute, validated_attribute.error]
       end
     end
+    private_class_method :attributes_and_errors
   end
 end
 
