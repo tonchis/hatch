@@ -55,7 +55,7 @@ In case you're wondering, the `Model::InvalidModel` is polymorphic with your `Mo
 class Address
   include Hatch
 
-  certifies(:street, :not_empty, 'This is an error! Where's my street?!')
+  certifies(:street, :not_empty, "This is an error! Where's my street?!")
   certifies(:number, :positive_number)
 end
 ```
