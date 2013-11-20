@@ -11,7 +11,6 @@ Installation
 Usage
 -----
 
-
 Tell `Hatch` how to certify the attributes of your models, and it will give you the appropriate object.
 
 If you don't hatch your model with all the correct attributes, you'll get an object representing an invalid instance of it.
@@ -89,6 +88,34 @@ not_an_address.errors[:number]
 
 not_an_address.errors.empty?
 # => false
+```
+
+Interesting use cases
+---------------------
+
+`Hatch` is essentially a validator, so you can rely on it to certify your attributes before they get to the model.
+
+```ruby
+class AddressForm
+  include Hatch
+
+  certify(:street, 'Address must have a street') do |street|
+    !street.nil? && !street.empty?
+  end
+
+  certify(:number, 'Address must have a positive number') do |number|
+    !number.nil? && number > 0
+  end
+end
+
+# Meanwhile, in your favorite Ruby web framework...
+address_form = AddressForm.hatch(params['address'])
+
+if address_form.valid?
+  Address.create(params['address'])
+else
+  # try again
+end
 ```
 
 One of the nicest things about `Hatch` is that errors can be any object of your desire! Power to thy user.
