@@ -85,9 +85,6 @@ module Hatch
       private :respond_to_readable_attributes
 
       def readable_attributes
-        extended_class = self.class.name.gsub(/(.*)(\:\:Invalid)(.*)/, '\1').split('::').inject(Object) do |mod, class_name|
-          mod.const_get(class_name)
-        end
         instance_methods = extended_class.instance_methods(false)
 
         @validated_attributes.select do |validated_attribute|
@@ -95,6 +92,13 @@ module Hatch
         end
       end
       private :readable_attributes
+
+      def extended_class
+        self.class.name.gsub(/(.*)(\:\:Invalid)(.*)/, '\1').split('::').inject(Object) do |mod, class_name|
+          mod.const_get(class_name)
+        end
+      end
+      private :extended_class
     end
   end
 
