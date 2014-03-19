@@ -22,7 +22,7 @@ module Hatch
         include InvalidInstanceMethods
       end
 
-      klass.const_set("Invalid#{klass}", invalid_class)
+      klass.const_set("Invalid#{klass.name.split('::').last}", invalid_class)
     end
 
     def certify(attribute, error, &block)
@@ -49,7 +49,7 @@ module Hatch
       if validated_attributes.all? {|validated_attribute| validated_attribute.valid?}
         set_instance_variables(new, *validated_attributes)
       else
-        const_get("Invalid#{self}").new(*validated_attributes)
+        const_get("Invalid#{self.to_s.split('::').last}").new(*validated_attributes)
       end
     end
     private :build
@@ -85,7 +85,9 @@ module Hatch
       private :respond_to_readable_attributes
 
       def readable_attributes
-        extended_class = Kernel.const_get(self.class.name.split("Invalid").last)
+        extended_class = self.class.name.gsub(/(.*)(\:\:Invalid)(.*)/, '\1').split('::').inject(Object) do |mod, class_name|
+          mod.const_get(class_name)
+        end
         instance_methods = extended_class.instance_methods(false)
 
         @validated_attributes.select do |validated_attribute|
